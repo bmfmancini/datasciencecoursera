@@ -1,0 +1,3 @@
+The Analysis File downloads the data to be analyzed then loads the data into R
+from R when then bind the data tohetgether to clean the format of the data so its tidy and
+easy to read 
