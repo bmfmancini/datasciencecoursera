@@ -1,6 +1,9 @@
+### I have taken some  code from other sources to make my project work 
+
+
+
 run_analysis<-function(){
 
-#Get the info 
 
 setwd("/home/sean/R/Assignment")
 
@@ -18,7 +21,8 @@ dateDownloaded<-date()
 
  
 
-#Import data into R 
+####Borrowed CODE http://www.randomo.space
+#testing Data 
 
 X_test<-read.table("./UCI HAR Dataset /test/X_test.txt")
 
@@ -39,7 +43,6 @@ activity<-read.table("./UCI HAR Dataset /activity_labels.txt")
  
 
 
-
 dim(X_test)
 
 dim(y_test)
@@ -50,10 +53,16 @@ dim(X_train)
 
 dim(y_train)
 
+dim(subject_train)
+
+dim(features)
+
+dim(activity)
+
 
  
 
-# connect datasets together 
+
 
 Raw<-rbind(X_test,X_train)
 
@@ -72,10 +81,9 @@ dim(subjectID)
  
 
 
+colnames(subjectID)<-"SubID"
 
  
-
-#Merging Activity labels with Y
 
 library(plyr)
 
@@ -91,9 +99,13 @@ colnames(Activity2)<-"Activity_Label"
 
 
 
+Raw<-Raw[,Features_inc]
+
+names(Raw)<-gsub("\(|\)","",features$V2[Features_inc])
+
  
 
-#Complete data set made
+
 
 Alldata<-cbind(subjectID,Raw,Activity2)
 
@@ -101,12 +113,5 @@ write.table(Alldata,"merged_Alldata.txt")
 
  
 
-#Calculating mean and SD
 
-library(data.table)
 
-TidyData<-data.table(Alldata)
-
-MeanSD<-TidyData[,lapply(.SD,mean), by=c("SubID","Activity_Label")]
-
-write.table(MeanSD,"MeanSD_Tidy_Data.txt", row.name=FALSE)}
